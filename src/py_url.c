@@ -43,7 +43,7 @@ int py_parse_url(const char* url, char* site, int ssize, int* port, char* file, 
 	}
 	memcpy(site, begin, len);
 	site[len] = '\0';
-	*p =='\0'? begin = p: begin = p+1;
+	(*p =='\0')?( begin = p) : (begin = p+1);
 
 	// get port
 	if(*p == ':'){ // has port
@@ -57,7 +57,7 @@ int py_parse_url(const char* url, char* site, int ssize, int* port, char* file, 
 	}
 
 	// get file
-	*p =='\0'? begin = p: begin = p+1;
+	(*p =='\0')? (begin = p): (begin = p+1);
 	strncpy(file, begin, fsize-1);
 	file[fsize-1] = '\0';
 
@@ -111,17 +111,19 @@ int py_get_site(const char* url, char* site, int ssize)
  */
 int decode_url(const char* src, int srclen, char* dest, int dsize)
 {
-	int val = 0;
-	int dcnt = 0;
+	int           i    = 0;
+	int           val  = 0;
+	int           dcnt = 0;
+	unsigned char ch   = '\0';
 	char tmp[3];
 
 	tmp[2] = '\0';
 
-	for(int i=0;i<srclen;){
+	for(i=0;i<srclen;){
 		if(dcnt+1>=dsize){
 			assert(0);
 		}
-		unsigned char ch = src[i];
+		ch = src[i];
 		if(ch=='%' && i+2<srclen){
 			tmp[0] = src[i+1];
 			tmp[1] = src[i+2];
@@ -152,6 +154,7 @@ int decode_url(const char* src, int srclen, char* dest, int dsize)
  */
 int encode_url(const char*  src, int srclen, char* dest, int dsize)
 {
+	int i    = 0;
 	int dcnt = 0;
 	int len = 0;
 	unsigned char ch = '\0';
@@ -177,7 +180,7 @@ int encode_url(const char*  src, int srclen, char* dest, int dsize)
 
 	};
 
-	for(int i=0;i<srclen;i++){
+	for(i=0;i<srclen;i++){
 		ch = src[i];
 
 		if(ch>127){
