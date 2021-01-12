@@ -1,6 +1,6 @@
 TARGET=libpyurl.a
 PREFIX=/usr/lib
-CC= g++
+CC= gcc
 
 INCLUDES = -I./ -I./code/
 LIBS =
